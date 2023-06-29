@@ -1,0 +1,143 @@
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Cart</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+    <!-- Favicon -->
+    <link th:href="@{/user/img/favicon.icon}" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap}" rel="stylesheet">  
+    <!-- Font Awesome -->
+    <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css}" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{/user/lib/animate/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/user/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" th:href="@{/user/css/style.css}">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div th:insert = "~{/fragment/topbar :: topBar}"></div>
+     <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div th:insert = "~{/fragment/nvarbar :: nvarbar}"></div>
+    <!-- Navbar End -->
+
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="/index">Trang Chủ</a>
+                    <a class="breadcrumb-item text-dark" href="#">Tài Khoản</a>
+                    <span class="breadcrumb-item active">Đơn Hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5" th:if = "${show}">
+            <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="padding-left: 0">Mã Đơn Hàng</th>
+                            <th>Ngày Đặt</th>
+                            <th>Tổng Tiền</th>
+                            <th>Thành Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Hoạt Động</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        <tr th:each = "bill : ${listBill}">
+                            <td class="align-middle" style="padding-left: 0px"><img src="img/product-1.jpg" alt="" style="width: 50px;" th:text = "${bill.id}"> </td>
+                            <td class="align-middle" th:text = "${bill.dateCreated}"></td>
+                            <td class="align-middle" th:text = "${bill.totalMoney}"></td>
+                            <td class="align-middle" th:text = "${bill.intoMoney}"></td>
+                           	<td class="align-middle" th:text="${bill.isActive == 1 ? 'Chờ giao' : (bill.isActive == 2 ? 'Đang giao' : (bill.isActive == 3 ? 'Thành Công' : 'Đã Hủy'))}"></td>
+                            
+                           
+                            <td class="align-middle" th:if = "${bill.isActive == 1 ? 'true' : 'false'}" >
+                            	<a th:href = "'/index/order/detailtbill/' + ${bill.id}"><button class="btn btn-outline-info" style="width: 100px; border-radius: 5px;">Chi Tiết</button></a>
+                            	<a th:href="@{'/index/order/deleteinvoice/' + ${bill.id}}" th:onclick = "return confirm('Xác Nhận Hủy Đơn Hàng')"><button class="btn btn-outline-danger" style="width: 100px; border-radius: 5px;">Hủy</button></a>
+                            </td>
+                            <td class="align-middle" th:if = "${bill.isActive == 2 ? 'true' : 'false'}" >
+                            	<a th:href="@{'/index/order/received/' + ${bill.id}}" th:onclick = "return confirm('Bạn Đã Nhận Được Đơn Hàng')"><button class="btn btn-outline-success" style="width: 100px; border-radius: 5px;">Đã Nhận</button></a>
+                            	<a th:href = "'/index/order/detailtbill/' + ${bill.id}"><button class="btn btn-outline-info" style="width: 100px; border-radius: 5px;">Chi Tiết</button></a>
+                            </td>
+                            <td class="align-middle" th:if = "${bill.isActive == 3 ? 'true' : 'false'}" >
+                            	<a th:href="@{'/index/order/invoice/' + ${bill.id}}"><button class="btn btn-outline-dark" style="width: 200px; border-radius: 5px;">Hóa Đơn</button></a>
+                            </td> 
+                            <td class="align-middle" th:if = "${bill.isActive == 4 ? 'true' : 'false'}" >
+                            	<a th:href = "'/index/order/detailtbill/' + ${bill.id}"><button class="btn btn-outline-info" style="width: 100px; border-radius: 5px;">Chi Tiết</button></a>
+                            	<a th:href="@{'/index/order/repurchase/' + ${bill.id}}"><button class="btn btn-outline-warning" style="width: 100px; border-radius: 5px;">Mua Lại</button></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row px-xl-5" th:if = "${showDetail}">
+            <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="padding-left: 0">Tên Sản Phẩm</th>
+                            <th>Đơn Giá</th>
+                            <th>Số Lượng</th>
+                            <th>Màu Sắc</th>
+                            <th>Kích Thước</th>
+                            <th>Tổng Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        <tr th:each = "p : ${dtBill}">
+                            <td class="align-middle" style="padding-left: 0px"><img src="img/product-1.jpg" alt="" style="width: 50px;" th:text = "${p.product.productName}"> </td>
+                            <td class="align-middle" th:text = "${p.unitPrice}"></td>
+                            <td class="align-middle" th:text = "${p.quantity}"></td>
+                            <td class="align-middle" th:text = "${p.color.colorname}"></td>
+                            <td class="align-middle" th:text = "${p.size.sizeName}"></td>
+                            <td class="align-middle" th:text = "${p.totalMoney}"></td>
+                           	
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+
+     <!-- Footer Start -->
+    <div th:insert = "~{/fragment/footer :: footer}"></div>
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <!-- JavaScript Libraries -->
+    <script th:src="@{https://code.jquery.com/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/user/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/user/lib/owlcarousel/owl.carousel.min.js}"></script>
+    <!-- Contact Javascript File -->
+    <script th:src="@{/user/mail/jqBootstrapValidation.min.js}"></script>
+    <script th:src="@{/user/mail/contact.js}"></script>
+    <!-- Template Javascript -->
+    <script th:src="@{/user/js/main.js}"></script>
+</body>
+
+</html>

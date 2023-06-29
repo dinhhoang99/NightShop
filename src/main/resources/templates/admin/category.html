@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>NightShop - ADMIN</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext}" rel="stylesheet" type="text/css">
+    <link th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link th:href="@{/plugins/bootstrap/css/bootstrap.css}" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link th:href="@{/plugins/node-waves/waves.css}" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link th:href="@{/plugins/animate-css/animate.css}" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link th:href="@{/plugins/morrisjs/morris.css}" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link th:href="@{	/css/themes/all-themes.css}" rel="stylesheet" />
+
+</head>
+<body class="theme-red">
+   
+   <div th:insert = "~{/fragment/slidebar :: slideBar}"></div>
+   
+    <!--Start Content  -->
+    <section class="content">
+        <div class="row clearfix">
+         	<div class="card">
+         		<div class="header">
+                    <h2>
+                        Thêm Danh Mục
+                    </h2>
+                </div>
+                <div class="body">
+                   <div class="table-responsive">
+                       <form th:action="@{/admin/category/add}" method="post" id ="form_validation" novalidate = "novalidate" th:object = ${addaccount} enctype="multipart/form-data">
+                       		<div class="row clearfix"></div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Tên Danh Mục</label> <br>
+                                        	<small th:text = "${error}" style="color: red;"></small>
+                                            <input type="text" name="nameCategory" class="form-control" placeholder="Nhập Tên Danh Mục"  >
+                                        </div>
+                                    </div>
+                                    <div>
+									    <label>Trạng Thái</label> <br>
+									    <input name="isActive" type="radio" id="hienthi" class="with-gap" value="true"  />
+									    <label style="margin-right: 50px" for="hienthi">Hoạt Động</label>
+									    <input name="isActive" type="radio" id="khonghienthi" value="false" class="with-gap"  />
+									    <label for="khonghienthi">Không Hoạt Động</label>
+									</div>
+									<div>
+										<label>Hình Ảnh</label> <br>
+										<input type="file" name="images">
+									</div>
+									 <button th:onclick = "return confirm('Xác Nhận Thêm')" type="submit" class="btn btn-primary waves-effect" 
+                            		style="float: right; margin-right: 20px;height: 37px; width: 130px; border-radius: 5px;" >Thêm</button>
+                                </div>
+                                
+                                
+                                <div class="col-sm-5">
+                                    <div style="height: 150px; overflow: auto;">
+									    <table  class="table table-bordered table-striped table-hover dataTable js-exportable">
+									    	<thead>
+									    		<tr>
+									    			<th>Tên Danh Mục</th>
+									    		</tr>
+									    	</thead>
+									    	<tbody>
+									    		<tr th:each = "c : ${category}">
+									    			<td th:text = "${c.categoryName}"></td>
+									    		</tr>
+									    	</tbody>
+									    </table>
+									</div>
+                                </div>
+                                
+                           
+                       </form>
+                   </div>
+               </div>
+         	</div>
+        </div>
+        <!-- #END# -->
+        
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Danh Sách 
+                                <div style="float: right;">
+	                                <input style=" width: 250px;" placeholder="Nhập Tên Sản Phẩm">
+	                                <a><button style=" width: 70px; color: black;" >Tìm</button></a>
+                                </div>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Danh Mục</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr th:each = "pr : ${listProduct}	">
+											<td th:text = "${pr.productName}"></td>
+                                            <td th:text = "${pr.category.categoryName}"></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </section>
+
+ 	<!--End Content  -->
+ 	
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+	
+    <!-- Jquery Core Js -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}" type="text/javascript"></script>
+    <!-- Bootstrap Core Js -->
+    <script th:src="@{/bootstrap/js/bootstrap.js}" type="text/javascript"></script>
+
+    <!-- Select Plugin Js -->
+    <script th:src="@{/bootstrap-select/js/bootstrap-select.js}" type="text/javascript"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script th:src="@{/plugins/jquery-slimscroll/jquery.slimscroll.js}" type="text/javascript"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script th:src="@{/plugins/node-waves/waves.js}" type="text/javascript"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script th:src="@{/plugins/jquery-countto/jquery.countTo.js}" type="text/javascript"></script>
+
+    <!-- Morris Plugin Js -->
+    <script th:src="@{/plugins/raphael/raphael.min.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/morrisjs/morris.js}" type="text/javascript"></script>
+
+    <!-- ChartJs -->
+    <script th:src="@{/admin/plugins/chartjs/Chart.bundle.js}" type="text/javascript"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script th:src="@{/plugins/flot-charts/jquery.flot.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.resize.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.pie.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.categories.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.time.js}" type="text/javascript"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script th:src="@{/plugins/jquery-sparkline/jquery.sparkline.js}" type="text/javascript"></script>
+
+    <!-- Custom Js -->
+    <script th:src="@{/js/admin.js}" type="text/javascript"></script>
+    <script th:src="@{/js/pages/index.js}" type="text/javascript"></script>
+
+    <!-- Demo Js -->
+    <script th:src="@{/js/demo.js}" type="text/javascript"></script>
+</body>
+
+</html>

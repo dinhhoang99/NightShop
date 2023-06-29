@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>NightShop - ADMIN</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext}" rel="stylesheet" type="text/css">
+    <link th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link th:href="@{/plugins/bootstrap/css/bootstrap.css}" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link th:href="@{/plugins/node-waves/waves.css}" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link th:href="@{/plugins/animate-css/animate.css}" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link th:href="@{/plugins/morrisjs/morris.css}" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link th:href="@{	/css/themes/all-themes.css}" rel="stylesheet" />
+
+</head>
+<body class="theme-red">
+   
+   <div th:insert = "~{/fragment/slidebar :: slideBar}"></div>
+   
+    <!--Start Content  -->
+    <section class="content">
+        <div class="row clearfix">
+         	<div class="card">
+         		<div class="header">
+                    <h2>
+                        Thêm Sản Phẩm
+                    </h2>
+                </div>
+                <div class="body">
+                   <div class="table-responsive">
+                       <form th:action="@{/admin/product}" method="post" enctype="multipart/form-data" th:object="${product}">
+                       		<div class="row clearfix">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Tên Sản Phẩm</label>
+                                            <input name="productName" type="text" class="form-control" th:value = ${pr.productName} placeholder="Nhập Tên Sản Phẩm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Số Lượng</label>
+                                            <input name="quantity" type="number" class="form-control" th:value = ${pr.quantity} placeholder="Nhập Số Lượng">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Giá Nhập</label>
+                                            <input name="importPrice" type="text" class="form-control" th:value = ${pr.importPrice} placeholder="Nhập Tên Sản Phẩm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Giá Bán</label>
+                                            <input name="price" type="text" class="form-control" th:value = ${pr.price} placeholder="Nhập Giá Bán">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+	                                <label>Màu Sắc</label><br>
+                                    <div  style="display: flex;flex-direction: row;align-items: center;">
+                                    	<div th:each = "listColor : ${listColor}" style="margin-right: 10px;">
+                                    		<input name="colorname" type="checkbox" th:value="${listColor.id}" th:id="${listColor.colorname}" class="filled-in chk-col-green" >
+                                    		<label th:for="${listColor.colorname}" th:text = "${listColor.colorname}"></label>
+                                    	</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                	<label>Kích Thước</label><br>
+                                    <div  style="display: flex;flex-direction: row;align-items: center;">
+                                    	<div th:each = "listSize : ${listSize}" style="margin-right: 10px;">
+                                    		<input name="sizename" type="checkbox" th:id="${listSize.sizeName}" th:value="${listSize.id}" class="filled-in chk-col-green" >
+                                    		<label th:for="${listSize.sizeName}" th:text = "${listSize.sizeName}"></label>
+                                    	</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" >
+                                	<label>Danh Mục</label><br>
+                                	<div th:if = "${showCategory}">
+	                                    <select name="category" style="width: 300px; height: 35px; border-radius: 5px" class="form-select">
+										  <option selected>Chọn Danh Mục</option>
+										  <option th:each = "listCategory : ${listCategory}" th:value="${listCategory.id}" th:text = "${listCategory.categoryName}"></option>
+										</select>
+                                	</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                    	<label>Trạng Thái</label> <br><br>
+                                    	<input name="isActive" value="true" type="radio" id="hienthi" class="with-gap" th:checked="${pr.isActive}">
+                                    	<label style="margin-right: 50px" for="hienthi">Hiển Thị</label>
+                                    	<input name="isActive" value="false" type="radio" id="khonghienthi" class="with-gap" th:checked="${!pr.isActive}">
+                                    	<label for="khonghienthi">Không Hiển Thị</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        	<label>Mô Tả</label><br>
+                                            <textarea rows="5" cols="75" name="description" th:text="${pr.description}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                       	<label>Hình Ảnh</label>
+                                        <input type="file" name="image" class="form-control" placeholder="Nhập Số Lượng">
+                                    </div>
+                                </div>	
+								<button th:onclick = "return confirm('Xác Nhận Lưu Sản Phẩm')" type="submit" class="btn btn-primary waves-effect" th:formaction="${uri}"
+	                           style="float: right; margin-right: 20px;height: 37px; width: 130px; border-radius: 5px;" >Thêm</button>	
+	                      </div>
+                       </form>
+                   </div>
+               </div>
+         	</div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </section>
+
+ 	<!--End Content  -->
+ 	
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+	
+    <!-- Jquery Core Js -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}" type="text/javascript"></script>
+    <!-- Bootstrap Core Js -->
+    <script th:src="@{/bootstrap/js/bootstrap.js}" type="text/javascript"></script>
+
+    <!-- Select Plugin Js -->
+    <script th:src="@{/bootstrap-select/js/bootstrap-select.js}" type="text/javascript"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script th:src="@{/plugins/jquery-slimscroll/jquery.slimscroll.js}" type="text/javascript"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script th:src="@{/plugins/node-waves/waves.js}" type="text/javascript"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script th:src="@{/plugins/jquery-countto/jquery.countTo.js}" type="text/javascript"></script>
+
+    <!-- Morris Plugin Js -->
+    <script th:src="@{/plugins/raphael/raphael.min.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/morrisjs/morris.js}" type="text/javascript"></script>
+
+    <!-- ChartJs -->
+    <script th:src="@{/admin/plugins/chartjs/Chart.bundle.js}" type="text/javascript"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script th:src="@{/plugins/flot-charts/jquery.flot.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.resize.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.pie.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.categories.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.time.js}" type="text/javascript"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script th:src="@{/plugins/jquery-sparkline/jquery.sparkline.js}" type="text/javascript"></script>
+
+    <!-- Custom Js -->
+    <script th:src="@{/js/admin.js}" type="text/javascript"></script>
+    <script th:src="@{/js/pages/index.js}" type="text/javascript"></script>
+
+    <!-- Demo Js -->
+    <script th:src="@{/js/demo.js}" type="text/javascript"></script>
+</body>
+
+</html>

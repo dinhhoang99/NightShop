@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>NightShop - ADMIN</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext}" rel="stylesheet" type="text/css">
+    <link th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link th:href="@{/plugins/bootstrap/css/bootstrap.css}" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link th:href="@{/plugins/node-waves/waves.css}" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link th:href="@{/plugins/animate-css/animate.css}" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link th:href="@{/plugins/morrisjs/morris.css}" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link th:href="@{	/css/themes/all-themes.css}" rel="stylesheet" />
+</head>
+
+<body class="theme-red">
+   
+   <div th:insert = "~{/fragment/slidebar :: slideBar}"></div>
+   
+    <!--Start Content  -->
+    <section class="content">
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Danh Sách Sản Phẩm
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Số Lượng</th>
+                                            <th>Giá Nhập</th>
+                                            <th>Giá Bán</th>
+                                            <th>Danh Mục</th>
+                                            <th>Trạng Thái</th>
+                                            <th style="text-align: center;">Hoạt Động</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr th:each = "listProduct : ${listProduct}	">
+											<td th:text = "${listProduct.productName}"></td>
+                                            <td th:text = "${listProduct.quantity}"></td>
+                                            <td th:text = "${listProduct.importPrice}"></td>
+                                            <td th:text = "${listProduct.price}"></td>
+                                            <td th:text = "${listProduct.category.categoryName}"></td>
+                                            <td th:text = "${listProduct.isActive ? 'Hoạt Động' : 'Ngừng Hoạt Động'}"></td>
+                                            <td style="text-align: center;">
+                                            	<a th:href="@{'/admin/product/details/' + ${listProduct.id}}"><button type="button" class="btn btn-primary waves-effect">Chi Tiết</button></a>
+                                            	<a th:href="@{'/admin/product/delete/' + ${listProduct.id}}" th:onclick = "return confirm('Xác Nhận Đóng Sản Phẩm')"><button type="button" th:if ="${listProduct.isActive}" class="btn btn-danger waves-effect">Xóa</button></a>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Exportable Table -->
+    </section>
+
+ 	<!--End Content  -->
+ 	
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+	
+    <!-- Jquery Core Js -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}" type="text/javascript"></script>
+    <!-- Bootstrap Core Js -->
+    <script th:src="@{/bootstrap/js/bootstrap.js}" type="text/javascript"></script>
+
+    <!-- Select Plugin Js -->
+    <script th:src="@{/bootstrap-select/js/bootstrap-select.js}" type="text/javascript"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script th:src="@{/plugins/jquery-slimscroll/jquery.slimscroll.js}" type="text/javascript"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script th:src="@{/plugins/node-waves/waves.js}" type="text/javascript"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script th:src="@{/plugins/jquery-countto/jquery.countTo.js}" type="text/javascript"></script>
+
+    <!-- Morris Plugin Js -->
+    <script th:src="@{/plugins/raphael/raphael.min.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/morrisjs/morris.js}" type="text/javascript"></script>
+
+    <!-- ChartJs -->
+    <script th:src="@{/admin/plugins/chartjs/Chart.bundle.js}" type="text/javascript"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script th:src="@{/plugins/flot-charts/jquery.flot.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.resize.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.pie.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.categories.js}" type="text/javascript"></script>
+    <script th:src="@{/plugins/flot-charts/jquery.flot.time.js}" type="text/javascript"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script th:src="@{/plugins/jquery-sparkline/jquery.sparkline.js}" type="text/javascript"></script>
+
+    <!-- Custom Js -->
+    <script th:src="@{/js/admin.js}" type="text/javascript"></script>
+    <script th:src="@{/js/pages/index.js}" type="text/javascript"></script>
+
+    <!-- Demo Js -->
+    <script th:src="@{/js/demo.js}" type="text/javascript"></script>
+</body>
+
+</html>
