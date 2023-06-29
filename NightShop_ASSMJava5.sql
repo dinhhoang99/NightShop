@@ -14,21 +14,13 @@ create table account(
 	is_admin bit not null default 1
 )
 
-select * from account
-insert into Account(fullname,username,password,email) values
-(N'Hoàng','hoang123','123','dinhhoang123@gmail.com')	
-select * from Account
-update account set email = 'abc@gmail.com' where id = 3
-
 create table color(
 	id int primary key Identity not null,
 	color_name nvarchar(50) not null,
 	is_active bit not null default 1
 )
 
-insert into color(color_name) values
-(N'Đen'),(N'Trắng')
-select * from color
+
 
 create table size(
 	id int primary key Identity not null,
@@ -36,10 +28,7 @@ create table size(
 	is_active bit not null default 1
 )
 
-insert into size(size_name) values
-('S'),('M'),('L'),('XL')
-select * from size
-delete size where id = 6
+
 
 create table category(
 	id int primary key Identity not null,
@@ -48,9 +37,6 @@ create table category(
 )
 ALTER TABLE category ADD images varchar(1000) 
 
-select * from category
-insert into category(categorye_name) values
-(N'Thời Trang Nam')
 
 create table Discount (
 	id int primary key Identity not null,
@@ -61,11 +47,7 @@ create table Discount (
 	discount_conditions int not null,
 	is_active bit not null default 1
 )
-delete Discount where id = 6
-insert into Discount(name_discount,start_day,end_date,percent_discount,discount_conditions,is_active) values
-('VC50','2023-01-20','2023-09-23',500,10,1)
-('VC0','2023-01-20','2023-09-23',10,0,1)
-select * from Discount
+
 
 CREATE TABLE product (
     id int primary key identity not null,
@@ -78,16 +60,6 @@ CREATE TABLE product (
     iddanhmmuc int,
     foreign key (idDanhMuc) references category(id)
 );
-ALTER TABLE product ADD images varchar(1000) not null 
-select * from product
-update product set quantity = 10 where id = 4
-delete from product where description = 'abc'
-ALTER TABLE product
-RENAME COLUMN idDanhMuc TO id_category;
-
-DELETE FROM product_color WHERE id_product = '8';
-DELETE FROM product_size WHERE id_product = '8';
-DELETE FROM product WHERE id = '8';
 
 
 create table product_size(
@@ -95,20 +67,15 @@ create table product_size(
 	idProduct int foreign key references product(id),
 	idSize int foreign key references size(id)
 )
-select * from product_color
-select * from product_size
-delete from product_size where id_product = 3
+
 
 create table product_color(
 	id int primary key Identity not null,
 	idProduct int foreign key references product(id),
 	idColor int foreign key references color(id)
 )
-ALTER TABLE product_size ADD is_active bit 
-select * from product_color
-select * from product_size
 
-update product_size set is_active = 1
+
 create table cart(
 	id int primary key Identity not null,
 	idAccount int foreign key references account(id) not null,
@@ -118,12 +85,7 @@ create table cart(
 	quantity int not null
 )
 
-insert into cart(idAccount,idProduct,idColor,idSize,quantity) values
-(1,4,1,2,2)
 
-select * from cart
-
-drop table cart
 create table favorite(
 	id int primary key Identity not null,
 	idAccount int foreign key references account(id),
@@ -149,10 +111,8 @@ create table bill(
 	id_account int foreign key references account(id),
 	id_discount int foreign key references discount(id)
 )
-ALTER TABLE bill
-ADD quantity int  null
 
-	create table detailed_invoice(
+create table detailed_invoice(
 		id UNIQUEIDENTIFIER primary key  DEFAULT NEWID() not  null,
 		quatity int not null,
 		unit_price money not null,
@@ -164,7 +124,3 @@ ADD quantity int  null
 		id_size int foreign key references size(id)
 	)
 		
-	select * from bill
-	select * from detailed_invoice
-		
-update bill set is_active = 1 where id = 'DBAFC81C-A57F-4B21-B2BA-611A13B23ED8'
